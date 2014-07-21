@@ -77,17 +77,6 @@ class ajaxboardController extends ajaxboard
 		return $output;
 	}
 	
-	function arrangeNotify($notify = array())
-	{
-		$result = array();
-		foreach ($notify as $val)
-		{
-			$result[] = $val->notify_srl;
-		}
-		
-		return $result;
-	}
-	
 	function triggerAfterInsertDocument(&$obj)
 	{
 		$oAjaxboardModel = getModel('ajaxboard');
@@ -222,7 +211,7 @@ class ajaxboardController extends ajaxboard
 		$notify = $oAjaxboardModel->getAllNotify();
 		
 		$config = new stdClass();
-		$config->notify_srls = $this->arrangeNotify($notify);
+		$config->notify_srls = $oAjaxboardModel->arrangeNotify($notify);
 		$this->updateNotifyNotified($config);
 		
 		foreach ($notify as $val)

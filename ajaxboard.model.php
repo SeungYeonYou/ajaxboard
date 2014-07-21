@@ -186,6 +186,17 @@ class ajaxboardModel extends ajaxboard
 		return $output->data;
 	}
 	
+	function arrangeNotify($notify = array())
+	{
+		$result = array();
+		foreach ($notify as $val)
+		{
+			$result[] = $val->notify_srl;
+		}
+		
+		return $result;
+	}
+	
 	function getUsableMidList($module_srl = 0, $args = NULL, $column_list = array())
 	{
 		$oModuleModel = getModel('module');
