@@ -18,7 +18,7 @@
 				[ "events.notifyComment",  "before", this.triggerNotifyComment  ]
 			];
 			
-			for (var i in triggers)
+			for (var i = 0; i < triggers.length; i++)
 			{
 				parent.insertTrigger(triggers[i][0], triggers[i][1], triggers[i][2]);
 			}

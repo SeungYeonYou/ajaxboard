@@ -179,7 +179,7 @@
 		},
 		getTriggers: function(name, hook)
 		{
-			var triggers = new Array();
+			var triggers = [];
 			
 			if (!$.isArray(this.triggers[hook]))
 			{
@@ -199,7 +199,7 @@
 				return -1;
 			});
 			
-			for (var i in this.triggers[hook])
+			for (var i = 0; i < this.triggers[hook].length; i++)
 			{
 				var trigger = this.triggers[hook][i];
 				
@@ -219,7 +219,7 @@
 		{
 			var triggers = this.getTriggers(name, hook);
 			
-			for (var i in triggers)
+			for (var i = 0; i < triggers.length; i++)
 			{
 				var callback = triggers[i];
 				

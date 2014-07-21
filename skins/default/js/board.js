@@ -21,7 +21,7 @@
 				[ "events.deleteComment",  "before", this.triggerDispDocumentList ]
 			];
 			
-			for (var i in triggers)
+			for (var i = 0; i < triggers.length; i++)
 			{
 				parent.insertTrigger(triggers[i][0], triggers[i][1], triggers[i][2]);
 			}
