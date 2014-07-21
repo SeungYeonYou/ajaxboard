@@ -70,6 +70,18 @@ class ajaxboardAdminController extends ajaxboard
 		{
 			$output = $oModuleController->insertModule($args);
 			$msg_code = 'success_registed';
+			
+			$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
+			if ($oCacheHandler->isSupport())
+			{
+				$object_key = 'module_srls:ajaxboard';
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$oCacheHandler->delete($cache_key);
+				
+				$object_key = 'linked_module_info';
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$oCacheHandler->delete($cache_key);
+			}
 		}
 		if (!$output->toBool())
 		{
@@ -82,13 +94,25 @@ class ajaxboardAdminController extends ajaxboard
 	
 	function procAjaxboardAdminDeleteAjaxboard()
 	{
-		$oModuleController = getController('module');
-		
 		$module_srl = Context::get('module_srl');
+		
+		$oModuleController = getController('module');
 		$output = $oModuleController->deleteModule($module_srl);
 		if (!$output->toBool())
 		{
 			return $output;
+		}
+		
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
+		if ($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_srls:ajaxboard';
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
+			
+			$object_key = 'linked_module_info';
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
 		}
 		
 		$this->setMessage('success_deleted');

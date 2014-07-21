@@ -67,18 +67,28 @@ class ajaxboardModel extends ajaxboard
 	
 	function getModulesInfo($column_list = array())
 	{
-		$output = executeQueryArray('ajaxboard.getAllAjaxboard', NULL, array('module_srl'));
-		if (!$output->toBool())
+		$module_srls = false;
+		
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
+		if ($oCacheHandler->isSupport())
 		{
-			return $output;
+			$object_key = 'module_srls:ajaxboard';
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$module_srls = $oCacheHandler->get($cache_key);
 		}
-		if (!$output->data)
+		if ($module_srls === false)
 		{
-			return NULL;
-		}
-		foreach ($output->data as $val)
-		{
-			$module_srls[] = $val->module_srl;
+			$output = executeQueryArray('ajaxboard.getAllAjaxboard', NULL, array('module_srl'));
+			$modules_info = $output->data;
+			$module_srls = array();
+			foreach ($modules_info as $module_info)
+			{
+				$module_srls[] = $module_info->module_srl;
+			}
+			if ($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $module_srls);
+			}
 		}
 		
 		$oModuleModel = getModel('module');
@@ -106,21 +116,43 @@ class ajaxboardModel extends ajaxboard
 		{
 			return NULL;
 		}
-		$modules_info = $this->getModulesInfo();
-		if (!$modules_info)
+		
+		$module_info = false;
+		
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
+		if ($oCacheHandler->isSupport())
 		{
-			return NULL;
+			$object_key = 'linked_module_info:ajaxboard_' . $mid;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$module_info = $oCacheHandler->get($cache_key);
 		}
-		foreach ($modules_info as $module_info)
+		if ($module_info === false)
 		{
-			$mid_list = explode('|@|', $module_info->mid_list);
-			if (in_array($mid, $mid_list))
+			$modules_info = $this->getModulesInfo();
+			if (!$modules_info)
 			{
-				return $module_info;
+				return NULL;
+			}
+			foreach ($modules_info as $val)
+			{
+				$mid_list = explode('|@|', $val->mid_list);
+				if (in_array($mid, $mid_list))
+				{
+					$module_info = $val;
+					break;
+				}
+			}
+			if ($module_info === false)
+			{
+				$module_info = NULL;
+			}
+			if ($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $module_info);
 			}
 		}
 		
-		return NULL;
+		return $module_info;
 	}
 	
 	function getNotify($config)
