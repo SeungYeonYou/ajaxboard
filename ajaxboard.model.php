@@ -102,6 +102,10 @@ class ajaxboardModel extends ajaxboard
 	
 	function getLinkedModuleInfoByMid($mid = NULL)
 	{
+		if (!($mid && preg_match('/^[a-z][a-z0-9_]+$/i', $mid)))
+		{
+			return NULL;
+		}
 		$modules_info = $this->getModulesInfo();
 		if (!$modules_info)
 		{
