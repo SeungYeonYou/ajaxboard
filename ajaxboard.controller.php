@@ -91,8 +91,8 @@ class ajaxboardController extends ajaxboard
 	function triggerAfterInsertDocument(&$obj)
 	{
 		$oAjaxboardModel = getModel('ajaxboard');
-		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
-		if ($module_info)
+		$modules_info = $oAjaxboardModel->getModulesInfo();
+		if ($modules_info)
 		{
 			$config = new stdClass();
 			$config->type = 'insertDocument';
@@ -136,8 +136,8 @@ class ajaxboardController extends ajaxboard
 	function triggerAfterInsertComment(&$obj)
 	{
 		$oAjaxboardModel = getModel('ajaxboard');
-		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
-		if ($module_info)
+		$modules_info = $oAjaxboardModel->getModulesInfo();
+		if ($modules_info)
 		{
 			$config = new stdClass();
 			$config->type = 'insertComment';
