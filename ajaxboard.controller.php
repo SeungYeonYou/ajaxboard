@@ -90,60 +90,90 @@ class ajaxboardController extends ajaxboard
 	
 	function triggerAfterInsertDocument(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = 'insertDocument';
-		$config->target_srl = $obj->document_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = 'insertDocument';
+			$config->target_srl = $obj->document_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
 	
 	function triggerAfterDeleteDocument(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = 'deleteDocument';
-		$config->target_srl = $obj->document_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = 'deleteDocument';
+			$config->target_srl = $obj->document_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
 	
 	function triggerAfterUpdateVotedDocument(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = $obj->update_target == 'voted_count' ? 'documentVoteUp' : 'documentVoteDown';
-		$config->target_srl = $obj->document_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = $obj->update_target == 'voted_count' ? 'documentVoteUp' : 'documentVoteDown';
+			$config->target_srl = $obj->document_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
 	
 	function triggerAfterInsertComment(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = 'insertComment';
-		$config->target_srl = $obj->comment_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = 'insertComment';
+			$config->target_srl = $obj->comment_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
 	
 	function triggerAfterDeleteComment(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = 'deleteComment';
-		$config->target_srl = $obj->comment_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = 'deleteComment';
+			$config->target_srl = $obj->comment_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
 	
 	function triggerAfterUpdateVotedComment(&$obj)
 	{
-		$config = new stdClass();
-		$config->type = $obj->update_target == 'voted_count' ? 'commentVoteUp' : 'commentVoteDown';
-		$config->target_srl = $obj->comment_srl;
-		$this->insertNotify($config);
+		$oAjaxboardModel = getModel('ajaxboard');
+		$module_info = $oAjaxboardModel->getLinkedModuleInfoByModuleSrl($obj->module_srl);
+		if ($module_info)
+		{
+			$config = new stdClass();
+			$config->type = $obj->update_target == 'voted_count' ? 'commentVoteUp' : 'commentVoteDown';
+			$config->target_srl = $obj->comment_srl;
+			$this->insertNotify($config);
+		}
 		
 		return new Object();
 	}
