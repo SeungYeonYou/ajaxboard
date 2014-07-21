@@ -74,11 +74,11 @@ class ajaxboardAdminController extends ajaxboard
 			$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
 			if ($oCacheHandler->isSupport())
 			{
-				$object_key = 'module_srls:ajaxboard';
+				$object_key = 'module_ajaxboard_module_srls';
 				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->delete($cache_key);
 				
-				$object_key = 'linked_module_info';
+				$object_key = 'module_ajaxboard_linked_info';
 				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->delete($cache_key);
 			}
@@ -106,11 +106,11 @@ class ajaxboardAdminController extends ajaxboard
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
 		if ($oCacheHandler->isSupport())
 		{
-			$object_key = 'module_srls:ajaxboard';
+			$object_key = 'module_ajaxboard_module_srls';
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$oCacheHandler->delete($cache_key);
 			
-			$object_key = 'linked_module_info';
+			$object_key = 'module_ajaxboard_linked_info';
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}

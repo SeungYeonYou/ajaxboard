@@ -72,7 +72,7 @@ class ajaxboardModel extends ajaxboard
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
 		if ($oCacheHandler->isSupport())
 		{
-			$object_key = 'module_srls:ajaxboard';
+			$object_key = 'module_ajaxboard_module_srls';
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$module_srls = $oCacheHandler->get($cache_key);
 		}
@@ -122,7 +122,7 @@ class ajaxboardModel extends ajaxboard
 		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
 		if ($oCacheHandler->isSupport())
 		{
-			$object_key = 'linked_module_info:ajaxboard_' . $mid;
+			$object_key = 'module_ajaxboard_linked_info:' . $mid;
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$module_info = $oCacheHandler->get($cache_key);
 		}
@@ -163,12 +163,13 @@ class ajaxboardModel extends ajaxboard
 		}
 		
 		$output = executeQueryArray('ajaxboard.getNotify', $config);
-		if (!$output->data)
+		$notify_info = $output->data;
+		if (!$notify_info)
 		{
-			$output->data = array();
+			$notify_info = array();
 		}
 		
-		return $output->data;
+		return $notify_info;
 	}
 	
 	function getAllNotify($notified = 'N')
