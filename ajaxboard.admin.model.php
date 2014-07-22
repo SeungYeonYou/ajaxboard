@@ -22,10 +22,10 @@ class ajaxboardAdminModel extends ajaxboard
 		$lang->msg_connection_failed = Context::getLang('msg_connection_failed');
 		
 		$result = new stdClass();
-		$result->lang = $lang;
-		$result->timeout = $module_config->timeout;
-		$result->token = $module_config->token;
-		$result->server_uri = $module_config->server_uri;
+		$result->lang       = $lang;
+		$result->timeout    = $module_config->timeout;
+		$result->token      = $module_config->token;
+		$result->server_url = $module_config->server_url;
 		
 		$this->adds($result);
 	}

@@ -178,12 +178,13 @@ class ajaxboardModel extends ajaxboard
 		$args->notified = $notified;
 		
 		$output = executeQueryArray('ajaxboard.getAllNotify', $args);
-		if (!$output->data)
+		$notify_list = $output->data;
+		if (!$notify_list)
 		{
-			$output->data = array();
+			$notify_list = array();
 		}
 		
-		return $output->data;
+		return $notify_list;
 	}
 	
 	function arrangeNotify($notify = array())
@@ -278,7 +279,7 @@ class ajaxboardModel extends ajaxboard
 		$result->use_wfsr     = $module_info->use_wfsr;
 		$result->timeout      = $module_config->timeout;
 		$result->token        = $module_config->token;
-		$result->server_uri   = $module_config->server_uri;
+		$result->server_url   = $module_config->server_url;
 		
 		if (Mobile::isFromMobilePhone() && $origin_module_info->use_mobile == 'Y')
 		{

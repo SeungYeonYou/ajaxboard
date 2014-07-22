@@ -23,7 +23,7 @@
 		},
 		connect: function()
 		{
-			if (!(this.token && this.server_uri)) return this;
+			if (!(this.token && this.server_url)) return this;
 			
 			var query = buildQuery({
 				token      : this.token,
@@ -31,7 +31,7 @@
 				member_srl : this.member_srl
 			});
 			
-			this.socket = io(this.server_uri,
+			this.socket = io(this.server_url,
 			{
 				query: query,
 				reconnectionAttempts: 10
@@ -342,7 +342,7 @@
 				that.use_wfsr     = response.use_wfsr == "Y" ? true : false;
 				that.timeout      = response.timeout;
 				that.token        = response.token;
-				that.server_uri   = response.server_uri;
+				that.server_url   = response.server_url;
 				that.skin_info    = response.skin_info;
 			})
 			.fail(function(xhr, status, error)

@@ -13,14 +13,14 @@
 		},
 		connect: function()
 		{
-			if (!(this.token && this.server_uri)) return this;
+			if (!(this.token && this.server_url)) return this;
 			
 			var query = buildQuery({
 				token   : this.token,
 				respond : true
 			});
 			
-			this.socket = io(this.server_uri,
+			this.socket = io(this.server_url,
 			{
 				query: query,
 				reconnectionAttempts: 10
@@ -108,7 +108,7 @@
 			{
 				$.extend(xe.lang, response.lang);
 				that.timeout    = response.timeout;
-				that.server_uri = response.server_uri;
+				that.server_url = response.server_url;
 				that.token      = response.token;
 			})
 			.fail(function(xhr, status, error)

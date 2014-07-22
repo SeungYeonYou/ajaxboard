@@ -25,11 +25,6 @@ class ajaxboard extends ModuleObject
 	
 	function moduleInstall()
 	{
-		if (!$this->isSupported())
-		{
-			return new Object();
-		}
-		
 		$oModuleController = getController('module');
 		
 		foreach ($this->triggers as $trigger)
@@ -57,12 +52,7 @@ class ajaxboard extends ModuleObject
 	
 	function moduleUpdate()
 	{
-		if (!$this->isSupported())
-		{
-			return new Object();
-		}
-		
-		$oModuleModel      = getModel('module');
+		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 		
 		foreach ($this->triggers as $trigger)
@@ -78,7 +68,7 @@ class ajaxboard extends ModuleObject
 	
 	function moduleUninstall()
 	{
-		$oModuleModel      = getModel('module');
+		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
 		foreach ($this->triggers as $trigger)
@@ -103,15 +93,6 @@ class ajaxboard extends ModuleObject
 	
 	function recompileCache()
 	{
-	}
-	
-	function isSupported()
-	{
-		if (function_exists('curl_init'))
-		{
-			return true;
-		}
-		return false;
 	}
 }
 

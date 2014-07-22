@@ -14,8 +14,6 @@ class ajaxboardController extends ajaxboard
 	
 	function emitEvent($args = array())
 	{
-		if (!$this->isSupported()) return false;
-		
 		$oAjaxboardModel = getModel('ajaxboard');
 		$module_config = $oAjaxboardModel->getConfig();
 		
@@ -23,20 +21,26 @@ class ajaxboardController extends ajaxboard
 			'token'       => $module_config->token,
 			'private_key' => $module_config->private_key,
 		));
+		$request_config = array(
+			'ssl_verify_peer' => false
+		);
 		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $module_config->server_uri);
-		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_TIMEOUT_MS, $module_config->timeout);
+		$request_url = $module_config->server_url;
+		$timeout = $module_config->timeout / 1000;
+
+		$buff = FileHandler::getRemoteResource(
+			$request_url,
+			NULL,
+			$timeout,
+			'POST',
+			'application/x-www-form-urlencoded',
+			array(),
+			array(),
+			$fields,
+			$request_config
+		);
 		
-		$res = curl_exec($ch);
-		
-		curl_close($ch);
-		
-		return $res;
+		return $buff;
 	}
 	
 	function insertNotify($config)

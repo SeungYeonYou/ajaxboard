@@ -100,7 +100,7 @@
 		<value xml:lang="en"><![CDATA[Timeout]]></value>
 		<value xml:lang="jp"><![CDATA[タイムアウト]]></value>
 	</item>
-	<item name="cmd_server_uri">
+	<item name="cmd_server_url">
 		<value xml:lang="ko"><![CDATA[푸시 서버 주소]]></value>
 		<value xml:lang="en"><![CDATA[Push server address]]></value>
 		<value xml:lang="jp"><![CDATA[プッシュサーバーアドレス]]></value>
