@@ -1,4 +1,4 @@
-<query id="updateNotifyNotified" action="update">
+<query id="updateNotifyNotified" action="update" priority="LOW">
 	<tables>
 		<table name="ajaxboard_notify_list" />
 	</tables>

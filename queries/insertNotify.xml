@@ -1,4 +1,4 @@
-<query id="insertNotify" action="insert">
+<query id="insertNotify" action="insert" priority="LOW">
 	<tables>
 		<table name="ajaxboard_notify_list" />
 	</tables>
