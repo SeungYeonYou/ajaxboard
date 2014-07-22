@@ -216,8 +216,10 @@ class ajaxboardController extends ajaxboard
 		
 		$config = new stdClass();
 		$config->notify_srls = $oAjaxboardModel->arrangeNotify($notify);
-		$this->updateNotifyNotified($config);
-		
+		if ($config->notify_srls)
+		{
+			$this->updateNotifyNotified($config);
+		}
 		foreach ($notify as $val)
 		{
 			$args = array(
