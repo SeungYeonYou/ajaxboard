@@ -21,7 +21,7 @@
 		<div class="x_control-group">
 			<label for="timeout" class="x_control-label">{$lang->cmd_timeout}</label>
 			<div class="x_controls">
-				<input type="number" name="timeout" id="timeout" value="{$module_config->timeout}"|cond="$module_config->timeout" value="1000"|cond="!$module_config->timeout" /> ms
+				<input type="number" name="timeout" id="timeout" value="{$module_config->timeout}"|cond="$module_config->timeout" value="30000"|cond="!$module_config->timeout" /> ms
 				<a href="#help_timeout" class="x_icon-question-sign" data-toggle="#help_timeout">{$lang->help}</a>
 				<p id="help_timeout" class="x_help-block" hidden="hidden">{$lang->help_timeout}</p>
 			</div>
