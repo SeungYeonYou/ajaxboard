@@ -180,7 +180,7 @@ class ajaxboardController extends ajaxboard
 		{
 			$module_info = $oAjaxboardModel->getLinkedModuleInfoByMid($oModule->mid);
 		}
-		if (isset($module_info))
+		if ($module_info)
 		{
 			$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 			if ($grant->service)
