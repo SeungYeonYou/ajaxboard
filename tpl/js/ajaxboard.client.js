@@ -179,7 +179,11 @@
 				};
 				this.triggers[hook].push(trigger);
 			}
-			return this;
+			else
+			{
+				return false;
+			}
+			return true;
 		},
 		getTriggers: function(name, hook)
 		{
@@ -229,10 +233,13 @@
 				
 				if ($.isFunction(callback))
 				{
-					callback.apply(this, params || []);
+					if (callback.apply(this, params || []) === false)
+					{
+						return false;
+					}
 				}
 			}
-			return this;
+			return true;
 		},
 		procAjax: function(request_uri, module, act, params, type, data_type)
 		{
