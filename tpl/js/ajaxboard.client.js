@@ -419,7 +419,7 @@
 				
 				if (uploadFileObj.length)
 				{
-					uploadedFiles = new Array();
+					uploadedFiles = [];
 					uploadFileObj.remove();
 					uploadPreviewObj.empty();
 					uploaderSettings[seq].uploadTargetSrl = "";
