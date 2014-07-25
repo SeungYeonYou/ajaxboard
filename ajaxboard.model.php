@@ -34,7 +34,7 @@ class ajaxboardModel extends ajaxboard
 		return $skin;
 	}
 	
-	function getSkinVars($module_srl = 0)
+	function getSkinVars($module_srl)
 	{
 		$oModuleModel = getModel('module');
 		$skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
@@ -42,7 +42,7 @@ class ajaxboardModel extends ajaxboard
 		return $skin_vars;
 	}
 	
-	function getMobileSkinVars($module_srl = 0)
+	function getMobileSkinVars($module_srl)
 	{
 		$oModuleModel = getModel('module');
 		$mskin_info = $oModuleModel->getModuleMobileSkinVars($module_srl);
@@ -97,7 +97,7 @@ class ajaxboardModel extends ajaxboard
 		return $modules_info;
 	}
 	
-	function getLinkedModuleInfoByModuleSrl($module_srl = 0)
+	function getLinkedModuleInfoByModuleSrl($module_srl)
 	{
 		if (!$module_srl)
 		{
@@ -110,7 +110,7 @@ class ajaxboardModel extends ajaxboard
 		return $this->getLinkedModuleInfoByMid($module_info->mid);
 	}
 	
-	function getLinkedModuleInfoByMid($mid = NULL)
+	function getLinkedModuleInfoByMid($mid)
 	{
 		if (!($mid && preg_match('/^[a-z][a-z0-9_]+$/i', $mid)))
 		{
@@ -153,6 +153,59 @@ class ajaxboardModel extends ajaxboard
 		}
 		
 		return $module_info;
+	}
+	
+	function getNotifyModuleInfoByDocumentSrl($document_srl)
+	{
+		if (!$document_srl)
+		{
+			return NULL;
+		}
+		
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+		
+		return $this->getNotifyModuleInfoByMid($module_info->mid);
+	}
+	
+	function getNotifyModuleInfoByMid($mid)
+	{
+		if (!($mid && preg_match('/^[a-z][a-z0-9_]+$/i', $mid)))
+		{
+			return NULL;
+		}
+		
+		$modules_info = false;
+		
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, true);
+		if ($oCacheHandler->isSupport())
+		{
+			$object_key = 'module_ajaxboard_notify_info:' . $mid;
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$modules_info = $oCacheHandler->get($cache_key);
+		}
+		if ($modules_info === false)
+		{
+			$module_srls = array();
+			$target_modules_info = $this->getModulesInfo();
+			foreach ($target_modules_info as $val)
+			{
+				$notify_list = explode('|@|', $val->notify_list);
+				if (in_array($mid, $notify_list))
+				{
+					$module_srls[] = $val->module_srl;
+				}
+			}
+			
+			$oModuleModel = getModel('module');
+			$modules_info = $oModuleModel->getModulesInfo($module_srls);
+			if ($oCacheHandler->isSupport())
+			{
+				$oCacheHandler->put($cache_key, $modules_info);
+			}
+		}
+		
+		return $modules_info;
 	}
 	
 	function getNotify($config)

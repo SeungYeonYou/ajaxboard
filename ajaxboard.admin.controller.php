@@ -81,6 +81,10 @@ class ajaxboardAdminController extends ajaxboard
 				$object_key = 'module_ajaxboard_linked_info';
 				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 				$oCacheHandler->delete($cache_key);
+				
+				$object_key = 'module_ajaxboard_notify_info';
+				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+				$oCacheHandler->delete($cache_key);
 			}
 		}
 		if (!$output->toBool())
@@ -111,6 +115,10 @@ class ajaxboardAdminController extends ajaxboard
 			$oCacheHandler->delete($cache_key);
 			
 			$object_key = 'module_ajaxboard_linked_info';
+			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
+			$oCacheHandler->delete($cache_key);
+			
+			$object_key = 'module_ajaxboard_notify_info';
 			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
 			$oCacheHandler->delete($cache_key);
 		}
