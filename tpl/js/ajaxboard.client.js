@@ -47,7 +47,7 @@
 			
 			this.socket.on("connect", function()
 			{
-				that.triggerCall("events.connect", "after");
+				that.triggerCall("events.connect", "before");
 				
 				that.socket.on("notice", function(message)
 				{
@@ -156,11 +156,15 @@
 						]);
 					});
 				});
+				
+				that.triggerCall("events.connect", "after");
 			});
 			this.socket.on("error", function(reason)
 			{
 				try {console.error("Unable to socket.io: %s", reason)}
 				catch(e) {}
+				
+				that.triggerCall("events.error", "after");
 			});
 			
 			return this;
@@ -356,6 +360,7 @@
 		deleteComment: function(url, comment_srl)
 		{
 			this.startAjax();
+			this.triggerCall("deleteComment", "before", [url, comment_srl]);
 			
 			var that = this;
 			var ajax = this.getCommentHandler(comment_srl);
@@ -373,9 +378,16 @@
 						exec_xml("board", "procBoardDeleteComment", params, completeDeleteComment, ["error", "message", "mid", "document_srl", "page"]);
 					}
 				}
-				else if (confirm(xe.lang.msg_password_required))
+				else if (response.is_exists)
 				{
-					location.href = url;
+					if (confirm(xe.lang.msg_password_required))
+					{
+						location.href = url;
+					}
+				}
+				else
+				{
+					that.triggerCall("deleteComment.alreadyDeleted", "after", [comment_srl]);
 				}
 			})
 			.fail(function(xhr, status, error)
@@ -387,6 +399,8 @@
 			{
 				that.stopAjax();
 			});
+			
+			this.triggerCall("deleteComment", "after", [url, comment_srl]);
 			
 			return this;
 		},
@@ -425,9 +439,13 @@
 		},
 		scrollToComment: function(type, animate_time, indicator)
 		{
-			var pos, obj = $(indicator);
+			this.triggerCall("scrollToComment", "before", [type, animate_time, indicator]);
 			
-			if (!obj.length) return this;
+			var pos, obj = $(indicator);
+			if (!obj.length)
+			{
+				return this;
+			}
 			
 			switch (type)
 			{
@@ -445,8 +463,9 @@
 					catch(e) {}
 					return this;
 			}
-			
 			$("html, body").stop().animate({scrollTop: pos}, animate_time * 1000, "easeInOutExpo");
+			
+			this.triggerCall("scrollToComment", "after", [type, animate_time, indicator]);
 			
 			return this;
 		}
