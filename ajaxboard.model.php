@@ -278,17 +278,27 @@ class ajaxboardModel extends ajaxboard
 	{
 		$module_config = $this->getConfig();
 		
+		$files = array(
+			array('./common/js/jquery.js', 'head', NULL, -100000),
+			array('./common/js/js_app.js', 'head', NULL, -100000),
+			array(sprintf('%stpl/js/libs/intrinsic.function.js', $this->module_path), 'head', NULL, 0),
+			array(sprintf('%stpl/js/ajaxboard.%s.js', $this->module_path, $target), 'head', NULL, 0)
+		);
+		
 		if ($module_config->use_cdn == 'Y')
 		{
-			Context::loadFile(array(sprintf('///cdn.socket.io/socket.io-%s.js', self::socket_io_version), 'head', NULL, 0));
+			$url = sprintf('///cdn.socket.io/socket.io-%s.js', self::socket_io_version);
 		}
 		else
 		{
-			Context::loadFile(array(sprintf('%stpl/js/libs/socket.io.js', $this->module_path), 'head', NULL, 0));
+			$url = sprintf('%stpl/js/libs/socket.io.js', $this->module_path);
 		}
-		Context::loadFile(array('./common/js/js_app.js', 'head', NULL, -100000));
-		Context::loadFile(array(sprintf('%stpl/js/libs/intrinsic.function.js', $this->module_path), 'head', NULL, 0));
-		Context::loadFile(array(sprintf('%stpl/js/ajaxboard.%s.js', $this->module_path, $target), 'head', NULL, 0));
+		$files[] = array($url, 'head', NULL, -100000);
+		
+		foreach ($files as $file)
+		{
+			Context::loadFile($file);
+		}
 	}
 	
 	function loadSkinComponents($skin = NULL, $dir = 'skins', $site_srl = 0)
