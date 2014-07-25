@@ -279,7 +279,6 @@ class ajaxboardModel extends ajaxboard
 		$module_config = $this->getConfig();
 		
 		$files = array(
-			array('./common/js/jquery.js', 'head', NULL, -100000),
 			array('./common/js/js_app.js', 'head', NULL, -100000),
 			array(sprintf('%stpl/js/libs/intrinsic.function.js', $this->module_path), 'head', NULL, 0),
 			array(sprintf('%stpl/js/ajaxboard.%s.js', $this->module_path, $target), 'head', NULL, 0)
