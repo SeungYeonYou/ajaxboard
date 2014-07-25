@@ -47,8 +47,10 @@
 			
 			this.socket.on("connect", function()
 			{
-				that.triggerCall("events.connect", "before");
-				
+				if (!that.triggerCall("events.connect", "before"))
+				{
+					return that;
+				}
 				that.socket.on("notice", function(message)
 				{
 					that.triggerCall("events.notice", "before", [message]);
@@ -241,10 +243,8 @@
 			}
 			return true;
 		},
-		procAjax: function(request_uri, module, act, params, type, data_type)
+		procAjax: function(request_url, module, act, params, type, data_type)
 		{
-			this.triggerCall("procAjax", "before", [request_uri, module, act, params, type, data_type]);
-			
 			type      = type      ? type.toUpperCase()      : type = "GET";
 			data_type = data_type ? data_type.toLowerCase() : data_type = "html";
 			
@@ -274,7 +274,7 @@
 			if (act)    params.act    = act;
 			
 			params = {
-				url         : request_uri,
+				url         : request_url,
 				type        : type,
 				dataType    : data_type,
 				contentType : content_type,
@@ -283,16 +283,16 @@
 				timeout     : this.timeout
 			};
 			
-			this.triggerCall("procAjax", "after", [params]);
-			
 			return $.ajax(params);
 		},
 		startAjax: function()
 		{
-			this.triggerCall("startAjax", "before");
+			if (!this.triggerCall("startAjax", "before"))
+			{
+				return this;
+			}
 			
 			var waiting_obj = $(".wfsr");
-			
 			if (this.use_wfsr && show_waiting_message && waiting_obj.length)
 			{
 				var timeout_id = waiting_obj.data("timeout_id");
@@ -303,20 +303,24 @@
 				
 				waiting_obj.css("opacity", "").html(waiting_message).show();
 			}
+			
 			this.triggerCall("startAjax", "after");
 			
 			return this;
 		},
 		stopAjax: function()
 		{
-			this.triggerCall("stopAjax", "before");
+			if (!this.triggerCall("stopAjax", "before"))
+			{
+				return this;
+			}
 			
 			var waiting_obj = $(".wfsr");
-			
 			if (this.use_wfsr && show_waiting_message && waiting_obj.length)
 			{
 				waiting_obj.hide().css("opacity", 0);
 			}
+			
 			this.triggerCall("stopAjax", "after");
 			
 			return this;
@@ -366,8 +370,11 @@
 		},
 		deleteComment: function(url, comment_srl)
 		{
+			if (!this.triggerCall("deleteComment", "before", [url, comment_srl]))
+			{
+				return this;
+			}
 			this.startAjax();
-			this.triggerCall("deleteComment", "before", [url, comment_srl]);
 			
 			var that = this;
 			var ajax = this.getCommentHandler(comment_srl);
@@ -446,7 +453,10 @@
 		},
 		scrollToComment: function(type, animate_time, indicator)
 		{
-			this.triggerCall("scrollToComment", "before", [type, animate_time, indicator]);
+			if (!this.triggerCall("scrollToComment", "before", [type, animate_time, indicator]))
+			{
+				return this;
+			}
 			
 			var pos, obj = $(indicator);
 			if (!obj.length)
