@@ -375,18 +375,12 @@ class ajaxboardModel extends ajaxboard
 		$args->module_srl    = $oDocument->get('module_srl');
 		$args->document_srl  = $oDocument->get('document_srl');
 		$args->member_srl    = $oDocument->getMemberSrl();
-		$args->title         = '';
-		$args->content       = '';
+		$args->title         = $oDocument->getTitleText();
+		$args->content       = trim(strip_tags(nl2br($oDocument->getContentText())));
 		$args->nickname      = $oDocument->getNickName();
 		$args->voted_count   = $oDocument->get('voted_count');
 		$args->blamed_count  = $oDocument->get('blamed_count');
 		$args->mid           = $module_info->mid;
-		
-		if ($args->is_granted || $args->is_accessible)
-		{
-			$args->title   = $oDocument->getTitleText();
-			$args->content = trim(strip_tags(nl2br($oDocument->getContent(false, false, false, false, false))));
-		}
 		
 		$this->adds($args);
 	}
@@ -417,16 +411,11 @@ class ajaxboardModel extends ajaxboard
 		$args->document_srl  = $oComment->get('document_srl');
 		$args->comment_srl   = $oComment->get('comment_srl');
 		$args->member_srl    = $oComment->getMemberSrl();
-		$args->content       = '';
+		$args->content       = trim(strip_tags(nl2br($oComment->getContentText())));
 		$args->nickname      = $oComment->getNickName();
 		$args->voted_count   = $oComment->get('voted_count');
 		$args->blamed_count  = $oComment->get('blamed_count');
 		$args->mid           = $module_info->mid;
-		
-		if ($args->is_granted || $args->is_accessible)
-		{
-			$args->content = trim(strip_tags(nl2br($oComment->getContent(false, false, false))));
-		}
 		
 		$this->adds($args);
 	}
