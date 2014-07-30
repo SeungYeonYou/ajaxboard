@@ -274,6 +274,15 @@ class ajaxboardModel extends ajaxboard
 		return $mid_list;
 	}
 	
+	function getSummary($text, $strlen = 0, $endstr = '...')
+	{
+		if ($text && $strlen > 0)
+		{
+			$text = cut_str(trim(strip_tags(nl2br($text))), $strlen, $endstr);
+		}
+		return $text;
+	}
+	
 	function loadDefaultComponents($target = 'client')
 	{
 		$module_config = $this->getConfig();
@@ -378,9 +387,9 @@ class ajaxboardModel extends ajaxboard
 		$args->module_srl    = $oDocument->get('module_srl');
 		$args->document_srl  = $oDocument->get('document_srl');
 		$args->member_srl    = $oDocument->getMemberSrl();
-		$args->title         = $oDocument->getTitleText();
-		$args->content       = trim(strip_tags(nl2br($oDocument->getContentText())));
-		$args->nickname      = $oDocument->getNickName();
+		$args->title         = $this->getSummary($oDocument->getTitleText(), 30);
+		$args->content       = $this->getSummary($oDocument->getContentText(), 30);
+		$args->nickname      = $this->getSummary($oDocument->getNickName(), 12);
 		$args->voted_count   = $oDocument->get('voted_count');
 		$args->blamed_count  = $oDocument->get('blamed_count');
 		$args->mid           = $module_info->mid;
@@ -414,8 +423,8 @@ class ajaxboardModel extends ajaxboard
 		$args->document_srl  = $oComment->get('document_srl');
 		$args->comment_srl   = $oComment->get('comment_srl');
 		$args->member_srl    = $oComment->getMemberSrl();
-		$args->content       = trim(strip_tags(nl2br($oComment->getContentText())));
-		$args->nickname      = $oComment->getNickName();
+		$args->content       = $this->getSummary($oComment->getContentText(), 30);
+		$args->nickname      = $this->getSummary($oComment->getNickName(), 12);
 		$args->voted_count   = $oComment->get('voted_count');
 		$args->blamed_count  = $oComment->get('blamed_count');
 		$args->mid           = $module_info->mid;
