@@ -330,14 +330,19 @@ class ajaxboardModel extends ajaxboard
 	
 	function getAjaxboardWholeVariables()
 	{
-		$logged_info = Context::get('logged_info');
-		$document_srl = Context::get('document_srl');
 		$mid = Context::get('mid');
+		$document_srl = Context::get('document_srl');
+		$logged_info = Context::get('logged_info');
+		
+		$module_config = $this->getConfig();
+		$module_info = $this->getLinkedModuleInfoByMid($mid);
+		if (!$module_info)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 		
 		$oModuleModel = getModel('module');
-		$module_info = $this->getLinkedModuleInfoByMid($mid);
 		$origin_module_info = $oModuleModel->getModuleInfoByMid($mid);
-		$module_config = $this->getConfig();
 		
 		$lang = new stdClass();
 		$lang->msg_delete_comment = Context::getLang('msg_delete_comment');
