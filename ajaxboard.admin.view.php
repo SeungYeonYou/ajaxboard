@@ -43,9 +43,12 @@ class ajaxboardAdminView extends ajaxboard
 		$module_config = $oAjaxboardModel->getConfig();
 		$module_category = $oModuleModel->getModuleCategories();
 		
-		foreach($this->order_target as $key)
+		if (is_array($this->order_target))
 		{
-			$order_target[$key] = Context::getLang($key);
+			foreach($this->order_target as $key)
+			{
+				$order_target[$key] = Context::getLang($key);
+			}
 		}
 		$order_target['list_order'] = Context::getLang('regdate');
 		$order_target['update_order'] = Context::getLang('last_update');
