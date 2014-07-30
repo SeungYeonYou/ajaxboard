@@ -45,7 +45,7 @@ class ajaxboardModel extends ajaxboard
 	function getMobileSkinVars($module_srl)
 	{
 		$oModuleModel = getModel('module');
-		$mskin_info = $oModuleModel->getModuleMobileSkinVars($module_srl);
+		$mskin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 		
 		return $mskin_vars;
 	}
